@@ -18,6 +18,9 @@ import javafx.stage.Stage;
  */
 public class Login extends Stage {
 
+   ArrayList<User> userList = new ArrayList<>();
+   User newUser;
+
    Button submitButton = new Button("Login");
    TextField username;
    TextField password;
@@ -26,6 +29,9 @@ public class Login extends Stage {
    User user;
 
    Login() {
+      // this takes the user created on this page and returns it to the arraylist which is compared to the input in the login and this actually will return the account stage 
+    
+      userList.add(newUser);
 
       loginpane.setPadding(new Insets(10));
       loginpane.setVgap(5);
@@ -60,21 +66,6 @@ public class Login extends Stage {
 
    }
 
-   public boolean userExists(ArrayList userList, TextField Username) {
-      boolean exists = false;
-      userList = user.getUserList();
-
-      for (Object userList1 : userList) {
-         if (userList1.toString().equalsIgnoreCase(username.toString())) {
-            ;
-         }
-         {
-            exists = true;
-         }
-      }
-      return exists;
-   }
-
    private void loggingIn() {
       username.getText();
       password.getText();
@@ -90,16 +81,39 @@ public class Login extends Stage {
 
          alert.showAndWait();
 
-      } else if (userExists(user.getUserList(), username) == false) {
-         System.out.println("Please create an account!");
-         CreateUserStage createUserStage = new CreateUserStage();
-      } else {
+      } else if (newUser.getName().equals(username.getText()) &&
+        (newUser.getPassword().equals(password.getText()))) {
          AccountStage accountstage = new AccountStage();
       }
    }
 
+//   public boolean userExists(ArrayList userList, TextField Username) {
+//      boolean exists = false;
+//      userList = user.getUserList();
+//
+//      for (Object userList1 : userList) {
+//         if (userList1.toString().equalsIgnoreCase(username.toString())
+//           && userList1.toString().equalsIgnoreCase(password.toString())) {
+//            
+//         }
+//         {
+//            exists = true;
+//         }
+//      }
+//      return exists;
+//   }
+//
+//   
+//
    private void creatingUser() {
       CreateUserStage createUserStage = new CreateUserStage();
    }
 
+//   
+//      } else if (userExists(user.getUserList(), username) == false) {
+//         System.out.println("Please create an account!");
+//         CreateUserStage createUserStage = new CreateUserStage();
+//      } else if (userExists(user.getUserList(), username) == true){
+//         AccountStage accountstage = new AccountStage();
+//      }
 }

@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 public class AccountStage extends Stage {
 
-   Label accountStageLabel = new Label("Account");
 
    GridPane accountGrid = new GridPane();
 
@@ -25,33 +24,65 @@ public class AccountStage extends Stage {
 
    Button viewTransactions = new Button("View transactions");
 
-   Button viewIncome = new Button("View income");
-
-   Button viewGoals = new Button("View goals");
+    Button viewExpenseHistory = new Button("View expense history");
+   
+   Button viewAccountInfo = new Button("View account information");
+   
+  
+   
 
    AccountStage() {
-      accountOutput.setText("Account Information:");
-      
+
       accountGrid.setPadding(new Insets(10));
+//
+//      accountGrid.add(accountOutput, 1, 0);
 
-      accountGrid.add(accountStageLabel, 0, 0);
+      accountGrid.add(viewExpenses, 0, 0 );
 
-      accountGrid.add(accountOutput, 1, 0);
+      accountGrid.add(viewTransactions, 2,0);
 
-      accountGrid.add(viewExpenses, 0, 1);
+      accountGrid.add(viewExpenseHistory, 0, 1);
+//
+//     accountGrid.add(viewGoals, 1, 2);
+      
+      accountGrid.add(viewAccountInfo, 2,1);
 
-      accountGrid.add(viewTransactions, 1, 1);
+      viewExpenses.setOnAction(event -> showExpensesStage());
 
-      accountGrid.add(viewIncome, 0, 2);
+//     viewTransactions.setOnAction(event -> showTransactionsStage());
 
-      accountGrid.add(viewGoals, 1, 2);
+//     viewChart.setOnAction(event -> showMathStage());
+      
+     viewAccountInfo.setOnAction(event -> showAccountInformation());
 
       Scene scene = new Scene(accountGrid, 300, 300);
 
       this.setScene(scene);
-
+      this.setTitle("Account");
       this.show();
 
+   }
+
+   public void showExpensesStage() {
+      ExpensesStage expensesStage = new ExpensesStage();
+   }
+
+//   public void showTransactionsStage() {
+//     TransactionStage transactionsStage = new TransactionStage();
+////   }
+//
+//   public void showMathStage() {
+//      MathStage mathStage = new  MathStage();
+//   }
+
+   public String showAccountInformation() {
+      //this class has to take this user's accoutn 
+      //infromation and put it to string on a labels?
+      
+      String userInformation = ""; 
+      
+      return userInformation; 
+        
    }
 
 }
