@@ -2,13 +2,12 @@ package draftoffinalassignment;
 
 import java.util.Comparator;
 
-public class Expenses extends Transaction {
+public class Expenses {
    private double totalExpenses;
    private double addedExpenses; 
    //delete should be a method 
 
    public Expenses(double totalExpenses, double addedExpenses, String expenseCategory, String timeOfPurchase) {
-      super(addedExpenses, timeOfPurchase);
       this.totalExpenses = totalExpenses;
       this.expenseCategory = expenseCategory;
    }

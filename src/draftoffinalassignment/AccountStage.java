@@ -39,17 +39,13 @@ public class AccountStage extends Stage {
 
       accountGrid.add(viewExpenses, 0, 0 );
 
-      accountGrid.add(viewTransactions, 2,0);
+      accountGrid.add(viewTransactions, 1,0);
 
       accountGrid.add(viewExpenseHistory, 0, 1);
-//
-//     accountGrid.add(viewGoals, 1, 2);
       
-      accountGrid.add(viewAccountInfo, 2,1);
+      accountGrid.add(viewAccountInfo, 1,1);
 
       viewExpenses.setOnAction(event -> showExpensesStage());
-
-//     viewTransactions.setOnAction(event -> showTransactionsStage());
 
 //     viewChart.setOnAction(event -> showMathStage());
       
@@ -67,9 +63,6 @@ public class AccountStage extends Stage {
       ExpensesStage expensesStage = new ExpensesStage();
    }
 
-//   public void showTransactionsStage() {
-//     TransactionStage transactionsStage = new TransactionStage();
-////   }
 //
 //   public void showMathStage() {
 //      MathStage mathStage = new  MathStage();

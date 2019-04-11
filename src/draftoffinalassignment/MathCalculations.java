@@ -36,3 +36,4 @@ public class MathCalculations extends Stage{
         primaryStage.setTitle("Expenses Chart");
         primaryStage.show();
     }
+}

@@ -20,12 +20,12 @@ import javafx.stage.Stage;
 
 public class ExpensesStage extends Stage {
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage ExpensesStage) throws Exception {
         GridPane root = new GridPane();
         root.setPadding(new Insets(10));
         root.setVgap(10);
 
-//        Button btnIncome = new Button("Add income");
+//     Button btnIncome = new Button("Add income");
         Button btnExpense = new Button("Add expense");
 
         Label lbl1 = new Label("Amount spent");

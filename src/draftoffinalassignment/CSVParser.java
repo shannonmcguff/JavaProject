@@ -89,7 +89,7 @@ public class CSVParser extends Application {
          for (int i = 0; i < 4; i++) {
             //expense
             if (CSVArrayList.get(3).contains("0")) {
-               Transaction expense = new Expenses(0.0, Double.parseDouble(CSVArrayList.get(3)),
+               Expenses expense = new Expenses(0.0, Double.parseDouble(CSVArrayList.get(3)),
                  CSVArrayList.get(1), CSVArrayList.get(0));
             }//income 
             if (CSVArrayList.get(i).contains("0")) {

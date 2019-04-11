@@ -37,8 +37,24 @@ public class User {
     private double income;  // user prompted for income when they sign up. need an edit user account info to be able to change income wit setIncome()
     private double amountToSave;
     private String password; 
+    private Expenses expense;
 
-   private ArrayList<Transaction> transactions;
+   public double getIncome() {
+      return income;
+   }
+
+   public void setIncome(double income) {
+      this.income = income;
+   }
+
+   public Expenses getExpense() {
+      return expense;
+   }
+
+   public void setExpense(Expenses expense) {
+      this.expense = expense;
+   }
+
     
    public double getWeeklyIncome() {
       return income;

@@ -16,23 +16,24 @@ import javafx.stage.Stage;
  *
  * @author shann
  */
-public class Login extends Stage {
+public class LoginStage extends Stage {
 
    ArrayList<User> userList = new ArrayList<>();
-   User newUser;
+   User user = new User("Shannon", 50000, 500, "ham");
+   
 
+   
    Button submitButton = new Button("Login");
    TextField username;
    TextField password;
    GridPane loginpane = new GridPane();
    Button createUser = new Button("Create New User");
-   User user;
+   
 
-   Login() {
+   LoginStage() {
       // this takes the user created on this page and returns it to the arraylist which is compared to the input in the login and this actually will return the account stage 
     
-      userList.add(newUser);
-
+      userList.add(user);
       loginpane.setPadding(new Insets(10));
       loginpane.setVgap(5);
       loginpane.setHgap(5);
@@ -81,8 +82,8 @@ public class Login extends Stage {
 
          alert.showAndWait();
 
-      } else if (newUser.getName().equals(username.getText()) &&
-        (newUser.getPassword().equals(password.getText()))) {
+      } else if (user.getName().equals(username.getText()) &&
+        (user.getPassword().equals(password.getText()))) {
          AccountStage accountstage = new AccountStage();
       }
    }

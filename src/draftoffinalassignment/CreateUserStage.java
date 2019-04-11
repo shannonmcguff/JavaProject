@@ -24,7 +24,10 @@ public class CreateUserStage extends Stage {
    TextField incomeAmount = new TextField();
    TextField goalAmount = new TextField();
    TextField userpassword = new TextField();
+
    User user;
+   
+   ArrayList <User> userList = new ArrayList(); 
 
    CreateUserStage() {
       root.setPadding(new Insets(10));
@@ -50,24 +53,21 @@ public class CreateUserStage extends Stage {
 //      GridPane.setHalignment(addUser, HPos.RIGHT);
 //      root.add(addUser, 1, 3);
       addUser.setOnAction((ActionEvent t) -> submitUserInformation());
-      root.add(addUser, 0, 4); // column 1, row 2
+      root.add(addUser, 0, 5); // column 1, row 2
 
       Scene scene = new Scene(root, 400, 350);
-    
-    
-      
-     this.user = new User(nameText.getText(), Double.parseDouble(incomeAmount.getText()), Double.parseDouble(goalAmount.getText()), userpassword.getText());
-
+   
+//     User user = new User(nameText.getText(), Double.parseDouble(incomeAmount.getText()), Double.parseDouble(goalAmount.getText()), userpassword.getText());
+//
+//     user.toString();
+//     
       this.setTitle("Cash Track");
       this.setScene(scene);
       this.show();
 
 
    }
-   
-   public ArrayList getUserList(ArrayList userList) {
-      return userList;
-   }
+  
 
    private void submitUserInformation() {
 
@@ -85,21 +85,21 @@ public class CreateUserStage extends Stage {
          alert.showAndWait();
 
       } else {
-         String userName = nameText.getText();
          
+         String username =nameText.getText();
+//         this.user.setName(nameText.getText());
          double income = Double.parseDouble(incomeAmount.toString());
-//
+//         this.user.setIncome(Double.parseDouble(incomeAmount.toString()));
          double goal = Double.parseDouble(goalAmount.toString());
-         
-         String passwordToStore = userpassword.getText();
+//         this.user.setGoal(Double.parseDouble(goalAmount.toString()));
+         String password = userpassword.getText();
+//         this.user.setPassword(userpassword.getText());
 
-         user = new User(userName, income, goal, passwordToStore);
+         User user = new User(username, income, goal, password);
          
-         ArrayList <User> userList = user.getUserList();
-
          userList.add(user);
-         
-         Login login = new Login();
+        
+         LoginStage login = new LoginStage();
          
       }
    }
