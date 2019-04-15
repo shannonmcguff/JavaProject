@@ -7,16 +7,13 @@ package Stages;
 //Their name will be checked against the arrayList to see if they already exist as a user 
 //If the user already exists they will be told to go back to the login page 
 //If they do not exist in the system, they will be added then reverted back to the login page
+import model.User;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import model.User;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -30,6 +27,7 @@ import javafx.stage.Stage;
 //import model.UserFile;
 
 public class CreateUserStage extends Stage {
+
 
    //Variables declared 
    GridPane root = new GridPane();
@@ -45,14 +43,21 @@ public class CreateUserStage extends Stage {
    CreateUserStage() {
       root.setPadding(new Insets(10));
       root.setVgap(10);
+      
+      root.setStyle("-fx-background-color:green");
 
       Label userNameLabel = new Label("Name (This will be used as your login): ");
+      userNameLabel.setStyle("-fx-text-fill: white;");
       Label incomeLabel = new Label("What is your approximate annual income? ");
+      incomeLabel.setStyle("-fx-text-fill: white;");
       Label goalamountlabel = new Label("How much do you want to save? ");
+      goalamountlabel.setStyle("-fx-text-fill: white;");
       Label passwordLabel = new Label("Create a password: ");
+      passwordLabel.setStyle("-fx-text-fill: white;");
 
       root.add(userNameLabel, 0, 0);
       root.add(nameText, 1, 0);
+      
 
       root.add(incomeLabel, 0, 2);
       root.add(incomeAmount, 1, 2);
@@ -64,6 +69,7 @@ public class CreateUserStage extends Stage {
       root.add(userpassword, 1, 4);
 
       root.add(addUser, 0, 5);
+      addUser.setStyle("-fx-border-color:white; -fx-background-color: lightgreen;");
 
       addUser.setOnAction((ActionEvent t) -> submitUserInformation());
 

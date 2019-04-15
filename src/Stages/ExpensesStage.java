@@ -12,11 +12,9 @@
 */
 
 package Stages;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import model.Expenses;
+import java.util.ArrayList;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,43 +24,38 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ExpensesStage extends Stage {
 
     GridPane root = new GridPane();
-   String expenseType;
-   String expenseAmount;
-   String expenseTime ;
 
     Button btnExpense = new Button("Add expense");
 
     Label lbl1 = new Label("Amount spent");
     TextField amount = new TextField();
 
-    Label lbl2 = new Label("Time of purchase");
+    Label lbl2 = new Label("Time of purchase    ");
     TextField timeOfPurchase = new TextField();
-   
 
     Label lbl3 = new Label("Type of expense");
     ListView<String> expenseTypes = new ListView<>();
     ArrayList<String> expenseArray = new ArrayList<>();
+
+    ArrayList<Expenses> newData = new ArrayList<>();
 
     ExpensesStage() {
 
         root.setPadding(new Insets(10));
         root.setVgap(10);
 
-        //Add type of expense
         expenseArray.add("Food");
         expenseArray.add("Transportation");
         expenseArray.add("Mortgage");
@@ -79,7 +72,7 @@ public class ExpensesStage extends Stage {
 
         root.add(lbl2, 0, 1);
         root.add(timeOfPurchase, 1, 1);
-        timeOfPurchase.setPromptText("YYYY/MM/DD");
+        timeOfPurchase.setPromptText("yyyy/dd/mm");
 
         root.add(lbl3, 0, 2);
         root.add(expenseTypes, 1, 2);
@@ -95,13 +88,12 @@ public class ExpensesStage extends Stage {
         this.setTitle("Add Expenses");
         this.show();
     }
-    
+
     public class MyHandler implements EventHandler<ActionEvent> {
 
         @Override
         public void handle(ActionEvent event) {
-            ArrayList<Expenses> expenseList = new ArrayList<>();
-            
+
             boolean amountOk = checkAmount();
             boolean timeOk = checkTimeOfPurchase();
             boolean typeOk = checkExpenseType();
@@ -109,56 +101,45 @@ public class ExpensesStage extends Stage {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please fix the error");
-            do {
-                if (!typeOk) {
-                    alert.setContentText("Please select the type of Expense from the drop-down");
-                    alert.showAndWait();
-                }
-                if (!amountOk) {
-                    alert.setContentText("Please input an amount");
-                    alert.showAndWait();
-                }
-                if (!timeOk) {
-                    alert.setContentText("Please input the date of the expense");
-                    alert.showAndWait();
-                }
-            } while (!(typeOk && amountOk && timeOk));
+            if (!typeOk) {
+                alert.setContentText("Please select the type of Expense from the drop-down");
+                alert.showAndWait();
+            } else if (!amountOk) {
+                alert.setContentText("Please input an amount");
+                alert.showAndWait();
+            } else if (!timeOk) {
+                alert.setContentText("Please input the date of the expense");
+                alert.showAndWait();
+            } else {
 
-            String expenseType = expenseTypes.getSelectionModel().getSelectedItem();
-            String expenseAmount = amount.getText();
-            String expenseTime = timeOfPurchase.getText();
-            
-            //format amount for constructor
-//            double tempExpenseAmount = formatAmount(expenseAmount);
-            
-            Expenses expense = new Expenses(Double.parseDouble(expenseAmount), expenseType, expenseTime);
-            expenseList.add(expense);
-        
-            try {
-              addToFile(expense);
-           } catch (IOException ex) {
-              System.out.print(ex);
-           }
-           
+                String expenseType = (String) expenseTypes.getSelectionModel().getSelectedItem();
+                String expenseAmount = amount.getText();
+                String expenseTime = timeOfPurchase.getText();
+
+                //format amount for constructor
+                double tempExpenseAmount = formatAmount(expenseAmount);
+
+                Expenses expense = new Expenses(tempExpenseAmount, expenseType, expenseTime);
+                newData.add(expense);
+                amount.clear();
+                timeOfPurchase.clear();
+
+                for (int l = 0; l < newData.size(); l++) {
+                    System.out.println(newData.get(l).getExpense());
+                    System.out.println(newData.get(l).getTimeOfPurchase());
+                    System.out.println(newData.get(l).getExpenseCategory());
+                }
+            }
         }
     }
 
-   //Currently the regex expression returns an infinite loop if the date is input wrong 
     private boolean matchesAmount(String s) {
-        return s.matches("[-+]?\\d*\\.?\\d+");
+        return s.matches("(\\d+)(.?)(\\d{0,2})");
     }
 
     private boolean matchesTimeOfPurchase(String s) {
-     SimpleDateFormat check = new SimpleDateFormat("yyyy-MM-dd");
-         check.setLenient(false);
-    try {
-        check.parse(s);
-        return true;
-    } catch (ParseException ex) {
-        return false;
+        return s.matches("(\\d{4})(/{1})(\\d{2})(/{1})(\\d{2})");
     }
-}
-    
 
     //returns true if amount matches Regex
     private boolean checkAmount() {
@@ -180,28 +161,10 @@ public class ExpensesStage extends Stage {
         return isSelectedExpense;
     }
 
-//    private double formatAmount(String amount) {
-//        DecimalFormat decimalFormat = new DecimalFormat("######.00");
-//        double tempAmount = Double.parseDouble(amount);
-//        String tempString = Double.toString(tempAmount);
-//        tempString = decimalFormat.format(tempString);
-//        return Double.parseDouble(tempString);
-//    }
-    
-    public void addToFile(Expenses expense) throws IOException {
-          File file = new File("C:\\Users\\shann\\Documents\\user.txt");
-          
-               try (FileWriter filewriter = new FileWriter(file, true)) {
-                  filewriter.flush();
-                  filewriter.write(",");
-                  filewriter.write(expenseType);
-                  filewriter.write(",");
-                  filewriter.write(expenseAmount);
-                  filewriter.write(",");
-                  filewriter.write(expenseTime);
-                  String path = file.getAbsolutePath();
-                  System.out.print(path);
-               }
+    private double formatAmount(String amount) {
+        DecimalFormat decimalFormat = new DecimalFormat("######.00");
+        double tempAmount = Double.parseDouble(amount);
+        amount = decimalFormat.format(tempAmount);
+        return Double.parseDouble(amount);
     }
-
 }

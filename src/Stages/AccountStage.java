@@ -13,11 +13,15 @@
  */
 package Stages;
 
+//import model.SessionInformation;
+//import model.Session;
+//import model.User;
+import model.SessionInformationSingleton;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
-import model.User;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.event.ActionEvent;
@@ -29,30 +33,39 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Session;
-import model.SessionInformation;
+import model.User;
+
 
 public final class AccountStage extends Stage {
 
-   ArrayList<User> list = new ArrayList();
-   BufferedReader userFileReadIn;
-   String read;
-   Text userinfo = new Text();
+  
+   public ArrayList<User> list = new ArrayList();
+   public BufferedReader userFileReadIn;
+   public String read;
+   public Text userinfo = new Text();
 
-   AccountStage() {
+   
+ 
+   AccountStage() throws FileNotFoundException, IOException {
 
+      
       Label welcome = new Label("Welcome");
+     
 
       //Main gridpane where buttons are added
       GridPane accountGrid = new GridPane();
 
       //Clicking on this button allows users to see their expenses
-      Button viewExpenses = new Button("View expenses");
+      Button viewExpenses = new Button("Add expenses");
+      viewExpenses.setStyle("-fx-border-color:white");
 
 //Clicking takes the viewers to the math page
       Button viewExpenseHistory = new Button("View expense history");
+      viewExpenseHistory.setStyle("-fx-border-color:white");
 
       //clicking allows the user to see account info 
       Button viewAccountInfo = new Button("View account information");
+      viewAccountInfo.setStyle("-fx-border-color:white");
 
       accountGrid.setPadding(new Insets(10));
 
@@ -65,7 +78,7 @@ public final class AccountStage extends Stage {
       accountGrid.add(viewAccountInfo, 1, 2);
 
       accountGrid.add(userinfo, 1, 3);
-
+      
       viewExpenses.setOnAction(event -> showExpensesStage());
 
       //Math stage will output expense details in math for
@@ -88,38 +101,41 @@ public final class AccountStage extends Stage {
       this.show();
 
    }
-
- //Method is used to pull the login session information by accessing last instance of Session from
+   
+   //Method is used to pull the login session information by accessing last instance of Session from
    //the arraylist of sessions  
    //Method passes back a string which includes [username,int(line in the fle where user is stored)]
    public String whichUserIsLoggedOn() {
-      String userString;
-      SessionInformation sessioninfo = new SessionInformation();
-      ArrayList<Session> sessioninformation = sessioninfo.getList();
-      if(sessioninformation.isEmpty()) {
-      userString = sessioninformation.get(sessioninformation.size()).toString();
-      System.out.print(userString);
-      } else {
-      userString = sessioninformation.get(sessioninformation.size() -1).toString();
-      System.out.print(userString);
-      }
+      String userString = "";
+      SessionInformationSingleton.getInstance();
+      SessionInformationSingleton.getInstance().getList();
+         for (int i = 0; i < SessionInformationSingleton.getInstance().getList().size(); i++) {
+            if (i == SessionInformationSingleton.getInstance().getList().size()) {
+               userString = SessionInformationSingleton.getInstance().getList().get(i).toString();
+               System.out.print(userString);
+            } else {
+               i++;
+            }
+         } 
       return userString;
    }
 
    //Method takes the string of information about the current user from the previous method
    //Using this information it returns the second part of the return statement which is the int 
    //value of the line in which the user is stored within the text file
-   public int fileLineWhereuserExists(String userInformationForAccountInformationDisplay) {
-      Scanner input = new Scanner("C:\\Users\\shann\\Documents\\user.txt");
-      String number;
-      int userLineNumber = 0;
-      while (input.hasNextLine()) {
-         String line = input.nextLine();
-         number = line.split(",")[1];
-         userLineNumber = Integer.parseInt(number);
-      }
-      return userLineNumber;
+   public int fileLineWhereuserExists(String userInformationForAccountInformationDisplay) throws FileNotFoundException, IOException {
+     int lines;
+      Scanner input = new Scanner(new File("C:\\Users\\shann\\Documents\\user.txt"));
+       lines = 0;
+        while (input.hasNext()) {
+           lines++;
+         if(input.toString().contains((userInformationForAccountInformationDisplay))) {
+            return lines;
+         }
+       }
+     return lines;
    }
+
 
    //Method to show account information
    //Method accepts the line number inwhich the user information is stored then loops through the text file until it gets to that line
@@ -153,19 +169,7 @@ public final class AccountStage extends Stage {
       ExpensesStage expensesStage = new ExpensesStage();
       expensesStage.show();
    }
+   
+   
+   
 }
-
-// public int fileLineWhereuserExists(String userInformationForAccountInformationDisplay) {  
-//      Scanner input = new Scanner("C:\\Users\\shann\\Documents\\user.txt");
-//      int lineNumber = 1;
-//      while (input.hasNextLine()) {
-//         String line = input.nextLine();
-//         if (line.equalsIgnoreCase(name)) {
-//            return lineNumber;
-//         } else {
-//            lineNumber++;
-//         }
-//      }
-//      return lineNumber;
-//   }
-
