@@ -35,5 +35,10 @@ public class Expenses {
    public void setTimeOfPurchase(String timeOfPurchase) {
       this.timeOfPurchase = timeOfPurchase;
    }
+   
+   @Override
+   public String toString() {
+      return expenseCategory + "," + expenseAmount + "," + timeOfPurchase;  
+   }
   
 }

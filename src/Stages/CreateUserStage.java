@@ -36,7 +36,10 @@ public class CreateUserStage extends Stage {
    TextField incomeAmount = new TextField();
    TextField goalAmount = new TextField();
    TextField userpassword = new TextField();
+   
+   
    ArrayList<User> list = new ArrayList();
+   
    BufferedReader userFileReadIn;
    String read;
 
@@ -96,22 +99,30 @@ public class CreateUserStage extends Stage {
          alert.setContentText("All fields are required!");
          alert.showAndWait();
 
-         // Create a list of conditions to check datafields if user inputs values
-      } else if (incomeAmount.getText().matches("^[a-zA-Z]*$")) {
+         //input must be letters
+      } else if (!nameText.getText().matches("[a-zA-Z]+")) {
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Entry");
+            alert.setContentText("Your name must contain only letters!");
+            alert.showAndWait();
+            
+            //input must only contain numbers
+      } else if (!incomeAmount.getText().matches("[0-9]*")) {
          
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Invalid Entry");
-            alert.setContentText("Income amount must contain only numbers!");
+            alert.setContentText("Your income must contain only numbers!");
             alert.showAndWait();
             
      //Check to make sure the amount to save is is numbers
-     } else if (goalAmount.getText().matches("^[a-zA-Z]*$")) {
+     } else if (!goalAmount.getText().matches("[0-9]*")) {
         
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Invalid Entry");
-            alert.setContentText("Goal amount must contain only numbers!");
+            alert.setContentText("The amount you want to save can only contain numbers!");
             alert.showAndWait();
 
  //If all above conditions passed, user's inputs will be added 
@@ -127,9 +138,6 @@ public class CreateUserStage extends Stage {
             try {
                try (FileWriter filewriter = new FileWriter(file, true)) {
                   filewriter.flush();
-                  filewriter.write("\n");
-                  filewriter.write(user.getid());
-                  filewriter.write(",");
                   filewriter.write(user.name);
                   filewriter.write(",");
                   String income = Double.toString(user.getIncome());
@@ -139,6 +147,7 @@ public class CreateUserStage extends Stage {
                   filewriter.write(save);
                   filewriter.write(",");
                   filewriter.write(user.password);
+                  filewriter.write("\n");
                   System.out.print(list);
                   String path = file.getAbsolutePath();
                   System.out.print(path);

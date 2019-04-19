@@ -22,7 +22,6 @@ public class User {
    public double amountToSave;
    public String password;
    //create id for user 
-   public String uniqueID;
    public String expenseArrayLocation;
 
    public User(String name, double income, double amountToSave, String password) {
@@ -87,16 +86,5 @@ public class User {
    public void setName(String name) {
       this.name = name;
    } 
-   
-
-   //User id for verification
-   public String getid() {
-     String uniqueID = UUID.randomUUID().toString();
-      return uniqueID; 
-   }
-   
-   public void setid() {
-      getid();
-   }
    
 }
